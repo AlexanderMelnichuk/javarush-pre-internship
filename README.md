@@ -9,3 +9,4 @@ Java Rush pre-internship task
 
 Порт сервера 8088. 
 База как и просили test, пользователь root/root.
+Тестовые данные в /book.sql
