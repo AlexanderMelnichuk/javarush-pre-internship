@@ -1,0 +1,49 @@
+.editor label {
+	display: block;
+	width: 80%;	
+	overflow: visible;
+	padding: 8px 0;
+}
+.editor .container {
+	margin-top: 10px;
+}
+
+.editor label input,
+.editor label textarea,
+.editor label span {
+	float: right;
+	width: 80%;
+}
+
+.pagination {
+    display: inline-block;
+    font-family: Arial, Helvetica
+}
+
+.pagination ul {
+	list-style: none;
+}
+
+.pagination ul li {
+    color: black;
+    float: left;
+    padding: 8px 0;
+}
+
+.pagination ul li a {
+	text-decoration: none;
+    padding: 16px 16px;
+}
+
+.pagination li.active {
+    padding: 8px 16px;
+	background-color: #4CAF50;
+    color: white;
+}
+
+.pagination li.disabled {
+    padding: 8px 16px;
+    color: lightgrey;
+}
+
+.pagination li:hover:not(.active):not(.disabled) {background-color: #ddd;}
