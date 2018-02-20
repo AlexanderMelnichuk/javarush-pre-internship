@@ -6,3 +6,5 @@ Java Rush pre-internship task
 Порт сервера 8080. 
 База как и просили test, пользователь root/root.
 Тестовые данные в /book.sql
+
+Запускал в Eclipse Oxygen и IntelliJ Idea Community Edition.
