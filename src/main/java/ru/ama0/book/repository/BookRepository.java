@@ -25,10 +25,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	  @Query("update Book b set b.author = :author where b.id = :id")
 	  int setAuthor(@Param("author") String author, @Param("id") Long id);
 
-	  // D
 	  @Modifying
-	  @Query("delete from Book b where b.id = ?1")
-	  int deleteById(int id);
+	  void deleteById(Long id);
 	  
 	  default public long getMaxPage(int recordsPerPage) {
 		  if (this.count() == 0 || this.count() <= recordsPerPage) 
