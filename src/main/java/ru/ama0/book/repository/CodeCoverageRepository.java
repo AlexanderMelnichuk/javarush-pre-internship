@@ -9,10 +9,10 @@ import ru.ama0.book.entity.CodeCoverage;
 public interface CodeCoverageRepository extends JpaRepository<CodeCoverage, Long> {
 
     List<CodeCoverage> findByJobIdAndNodeIdAndElementType(Integer jobId, Integer nodeId,
-                                                          Integer elementType);
+                                                          CodeCoverage.ElementType elementType);
 
     List<CodeCoverage> findByJobIdAndNodeIdAndElementTypeIn(Integer jobId, Integer nodeId,
-                                                                List<Integer> elementTypes);
+                                                                CodeCoverage.ElementType ... elementTypes);
 
-    List<CodeCoverage> findByElementTypeIn(List<Integer> integers);
+    List<CodeCoverage> findByElementTypeIn(List<CodeCoverage.ElementType> elementTypes);
 }

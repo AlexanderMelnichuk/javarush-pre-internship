@@ -3,6 +3,8 @@ package ru.ama0.book.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -37,8 +39,8 @@ public class CodeCoverage {
     private Integer parentNode;
 
     @JsonIgnore
-    //@Enumerated(EnumType.ORDINAL)
-    private Integer elementType;
+    @Enumerated(EnumType.ORDINAL)
+    private ElementType elementType;
 
     @JsonIgnore
     private String absoluteName;

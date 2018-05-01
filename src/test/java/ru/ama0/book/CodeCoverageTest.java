@@ -34,7 +34,7 @@ public class CodeCoverageTest {
     @Before
     public void setUp() {
         coverageOne = codeCoverageRepository.save(CodeCoverage.builder().jobId(1).buildId(2).nodeId(3).parentNode(null)
-                .elementType(CodeCoverage.ElementType.PACKAGE.getDatabaseValue()).absoluteName("test.absolute.name")
+                .elementType(CodeCoverage.ElementType.PACKAGE).absoluteName("test.absolute.name")
                 .signature("test.signature").relativeName("name").totalClasses(5).coveredClasses(4).totalMethods(15)
                 .coveredMethods(12).totalComplexity(55).coveredComplexity(54).totalBranches(1).coveredBranches(1)
                 .totalLines(120).coveredLines(98).totalInstructions(111).coveredInstructions(88).sourceId(5)
@@ -44,15 +44,14 @@ public class CodeCoverageTest {
     @Test
     public void testFindByJobIdAndNodeIdAndElementType_finds() throws Exception {
         assertThat(codeCoverageRepository.findByJobIdAndNodeIdAndElementType(1, 3,
-                CodeCoverage.ElementType.PACKAGE.getDatabaseValue()),
+                CodeCoverage.ElementType.PACKAGE),
                 is(Collections.singletonList(coverageOne)));
     }
 
     @Test
     public void testFindByJobIdAndNodeIdAndElementTypesIn_finds() throws Exception {
         assertEquals(1, codeCoverageRepository.findByJobIdAndNodeIdAndElementTypeIn(1, 3,
-                Arrays.asList(CodeCoverage.ElementType.PACKAGE.getDatabaseValue(),
-                        CodeCoverage.ElementType.METHOD.getDatabaseValue())).size());
+                CodeCoverage.ElementType.PACKAGE, CodeCoverage.ElementType.METHOD).size());
     }
 
 /*
