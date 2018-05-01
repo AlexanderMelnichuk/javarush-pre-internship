@@ -30,14 +30,21 @@ public class BaseTest {
     public void setUp() {
         book = bookRepository.save(new Book("Testing title", "Testing description",
                 "Testing author", "Testing isbn", 2018));
-        bookRepository.save(new Book("Second book", "Second description",
+        bookRepository.save(new Book("Testing second book", "Second description",
                 "Second author", "Second isbn", 2015));
     }
 
     @Test
     public void bookAdditionTest() {
-        assertEquals(1, bookRepository.findByPrintYear(2017, 2019).size());
+        assertEquals(1, bookRepository.findByPrintYearBetween(2017, 2019).size());
     }
+
+    @Test
+    public void bookSelectInTest() {
+        assertEquals(1, bookRepository.findByPrintYearIn(2015, 2019).size());
+        assertEquals(2, bookRepository.findByTitleLikeAndPrintYearIn("Testing%", 2015, 2018).size());
+    }
+
 
     @Test
     public void bookRemovalTest() {

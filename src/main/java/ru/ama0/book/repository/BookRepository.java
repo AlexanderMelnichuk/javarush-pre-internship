@@ -17,9 +17,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 	  @Query("from Book b where b.printYear >= ?1 and b.printYear <= ?2")
 	  List<Book> findByPrintYear(int from, int to);
+
+	  List<Book> findByPrintYearBetween(int from, int to);
 	  
 	  @Query("from Book b where b.author like '%Дэн%'")
 	  List<Book> findByAuthor();
+
+	  List<Book> findByAuthor(String author);
 	  
 	  @Modifying
 	  @Query("update Book b set b.author = :author where b.id = :id")
@@ -33,8 +37,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 			  return 1L;
 		  return (this.count() - 1) / recordsPerPage + 1;
 	  }
-	  
-	  Page<Book> findByTitleLikeOrderByAuthorAsc(String title, Pageable pageable);
 
+	  List<Book> findByPrintYearIn(Integer ... years);
+
+	  List<Book> findByTitleLikeAndPrintYearIn(String title, Integer ... years);
+
+	  Page<Book> findByTitleLikeOrderByAuthorAsc(String title, Pageable pageable);
 }
 

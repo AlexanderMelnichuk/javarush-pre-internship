@@ -170,7 +170,7 @@ public class FrontController {
 	@RequestMapping("/year")
 	@ResponseBody
 	public List<Book> getBooksByPrintYear() {
-		List<Book> books = bookRepository.findByPrintYear(1995, 1998);
+		List<Book> books = bookRepository.findByPrintYearBetween(1995, 1998);
 		return books;
 	}
 
