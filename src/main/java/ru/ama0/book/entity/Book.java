@@ -1,8 +1,6 @@
 package ru.ama0.book.entity;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.persistence.*;
 
