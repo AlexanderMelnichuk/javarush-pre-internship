@@ -51,19 +51,13 @@ public class CodeCoverageTest {
 
     @Test
     public void testFindByJobIdAndNodeIdAndElementTypesIn_finds() throws Exception {
-        assertEquals(1, codeCoverageRepository.findByIdJobIdAndIdNodeIdAndElementTypeIn(1,
-                3, CodeCoverage.ElementType.PACKAGE, CodeCoverage.ElementType.METHOD).size());
-    }
-
-/*
-    @Test
-    public void testFindByJobId_notExists() throws Exception {
-        assertThat(codeCoverageRepository.findByJobId(1000L), IsEmptyCollection.empty());
+        assertEquals(1, codeCoverageRepository.findByIdJobIdAndParentNodeAndElementTypeIn(1,
+                null, CodeCoverage.ElementType.PACKAGE, CodeCoverage.ElementType.METHOD).size());
     }
 
     @Test
-    public void testFindByModuleId_notExists() throws Exception {
-        assertThat(codeCoverageRepository.findByModuleId(1000L), IsEmptyCollection.empty());
+    public void testFindByIdAndElementTypesIn_finds() throws Exception {
+        assertEquals(1, codeCoverageRepository.findByIdAndElementType(new CodeCoverageId(1, 3),
+                CodeCoverage.ElementType.PACKAGE).size());
     }
-*/
 }
