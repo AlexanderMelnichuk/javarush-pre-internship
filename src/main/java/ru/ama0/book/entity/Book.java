@@ -1,13 +1,15 @@
 package ru.ama0.book.entity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table
+@Table(name = "book")
 @Data
 @NoArgsConstructor
 public class Book {
@@ -20,6 +22,10 @@ public class Book {
 	private String isbn = "";
 	private Integer printYear = Calendar.getInstance().get(Calendar.YEAR);
 	private Boolean readAlready = false;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+	private List<Chapter> chapters = new ArrayList<>();
 
 	public Book(String title, String description, String author, String isbn, Integer printYear) {
 		super();
