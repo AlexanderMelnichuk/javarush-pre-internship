@@ -68,4 +68,9 @@ public class BaseTest {
         book.getChapters().add(new Chapter("Chapter 2. The test continues..."));
         bookRepository.save(book);
     }
+
+    @Test
+    public void customQuery() {
+        assertEquals(1, bookRepository.findSpecificBook(book.getId()).size());
+    }
 }
