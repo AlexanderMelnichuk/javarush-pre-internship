@@ -13,6 +13,4 @@ public interface CodeCoverageRepository extends JpaRepository<CodeCoverage, Long
 
     List<CodeCoverage> findByIdJobIdAndIdNodeIdAndElementTypeIn(Integer jobId, Integer nodeId,
                                                                 CodeCoverage.ElementType ... elementTypes);
-
-    List<CodeCoverage> findByElementTypeIn(List<CodeCoverage.ElementType> elementTypes);
 }
