@@ -1,13 +1,17 @@
 package ru.ama0.book.entity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
+import java.util.List;
 import javax.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table
+@Table(name = "book")
+@Data
+@NoArgsConstructor
 public class Book {
 	@Id
 	@GeneratedValue
@@ -19,9 +23,10 @@ public class Book {
 	private Integer printYear = Calendar.getInstance().get(Calendar.YEAR);
 	private Boolean readAlready = false;
 
-	public Book() {
-	}
-	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+	private List<Chapter> chapters = new ArrayList<>();
+
 	public Book(String title, String description, String author, String isbn, Integer printYear) {
 		super();
 		this.title = title;
@@ -32,62 +37,6 @@ public class Book {
 		this.readAlready = false;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getIsbn() {
-		return isbn;
-	}
-
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
-	}
-
-	public Integer getPrintYear() {
-		return printYear;
-	}
-
-	public void setPrintYear(Integer printYear) {
-		this.printYear = printYear;
-	}
-
-	public Boolean getReadAlready() {
-		return readAlready;
-	}
-
-	public void setReadAlready(Boolean readAlready) {
-		this.readAlready = readAlready;
-	}
-	
 	public void flipReadAlready() {
 		this.readAlready = !this.readAlready;
 	}

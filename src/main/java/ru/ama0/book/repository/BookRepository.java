@@ -15,33 +15,38 @@ import ru.ama0.book.entity.Book;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-	  @Query("from Book b where b.printYear >= ?1 and b.printYear <= ?2")
-	  List<Book> findByPrintYear(int from, int to);
+    String QUERY = "select id, title, description, author, isbn, print_year, read_already " +
+            "from book b where b.id = :id";
+    @Query(nativeQuery = true, value = QUERY + " and 1=1")
+    List<Book> findSpecificBook(@Param("id") Long id);
 
-	  List<Book> findByPrintYearBetween(int from, int to);
-	  
-	  @Query("from Book b where b.author like '%Дэн%'")
-	  List<Book> findByAuthor();
+    @Query("from Book b where b.printYear >= ?1 and b.printYear <= ?2")
+    List<Book> findByPrintYear(int from, int to);
 
-	  List<Book> findByAuthor(String author);
-	  
-	  @Modifying
-	  @Query("update Book b set b.author = :author where b.id = :id")
-	  int setAuthor(@Param("author") String author, @Param("id") Long id);
+    List<Book> findByPrintYearBetween(int from, int to);
 
-	  @Modifying
-	  void deleteById(Long id);
-	  
-	  default public long getMaxPage(int recordsPerPage) {
-		  if (this.count() == 0 || this.count() <= recordsPerPage) 
-			  return 1L;
-		  return (this.count() - 1) / recordsPerPage + 1;
-	  }
+    @Query("from Book b where b.author like '%Дэн%'")
+    List<Book> findByAuthor();
 
-	  List<Book> findByPrintYearIn(Integer ... years);
+    List<Book> findByAuthor(String author);
 
-	  List<Book> findByTitleLikeAndPrintYearIn(String title, Integer ... years);
+    @Modifying
+    @Query("update Book b set b.author = :author where b.id = :id")
+    int setAuthor(@Param("author") String author, @Param("id") Long id);
 
-	  Page<Book> findByTitleLikeOrderByAuthorAsc(String title, Pageable pageable);
+    @Modifying
+    void deleteById(Long id);
+
+    default public long getMaxPage(int recordsPerPage) {
+      if (this.count() == 0 || this.count() <= recordsPerPage)
+          return 1L;
+      return (this.count() - 1) / recordsPerPage + 1;
+    }
+
+    List<Book> findByPrintYearIn(Integer ... years);
+
+    List<Book> findByTitleLikeAndPrintYearIn(String title, Integer ... years);
+
+    Page<Book> findByTitleLikeOrderByAuthorAsc(String title, Pageable pageable);
 }
 
