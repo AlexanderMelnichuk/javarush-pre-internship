@@ -2,6 +2,7 @@ package ru.ama0.book;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,9 +13,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import ru.ama0.book.dto.BookWithChapters;
 import ru.ama0.book.entity.Book;
 import ru.ama0.book.entity.Chapter;
 import ru.ama0.book.repository.BookRepository;
+import ru.ama0.book.repository.BookWithChaptersRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {JpaConfiguration.class})
@@ -25,6 +28,8 @@ public class BaseTest {
 
     @Autowired // Can also be @Resource instead of @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private BookWithChaptersRepository bookWithChaptersRepository;
 
     private Book book;
     private Book book2;
@@ -35,6 +40,9 @@ public class BaseTest {
                 "Testing author", "Testing isbn", 2018));
         book2 = bookRepository.save(new Book("Testing second book", "Second description",
                 "Second author", "Second isbn", 2015));
+        book.getChapters().add(new Chapter("Chapter 1. The test begins!"));
+        book.getChapters().add(new Chapter("Chapter 2. The test continues..."));
+        bookRepository.save(book);
     }
 
     @After
@@ -63,14 +71,18 @@ public class BaseTest {
     }
 
     @Test
-    public void addingChapterTest() {
-        book.getChapters().add(new Chapter("Chapter 1. The test begins!"));
-        book.getChapters().add(new Chapter("Chapter 2. The test continues..."));
-        bookRepository.save(book);
+    public void customQuery() {
+        assertEquals(1, bookRepository.findSpecificBook(book.getId()).size());
     }
 
     @Test
-    public void customQuery() {
-        assertEquals(1, bookRepository.findSpecificBook(book.getId()).size());
+    public void customPojoQuery() {
+        assertEquals(1, bookRepository.findBookChapters("Chapter 2%").size());
+    }
+
+    @Test
+    public void customNonEntityPojoQuery() {
+        //assertEquals(1, bookWithChaptersRepository.findBookChapters("Chapter 2%").size());
+        List<BookWithChapters> list = bookWithChaptersRepository.findBookChapters();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.ama0.book.dto.BookWithChapters;
 import ru.ama0.book.entity.Book;
 
 @Transactional
@@ -17,6 +18,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     String QUERY = "select id, title, description, author, isbn, print_year, read_already " +
             "from book b where b.id = :id";
+
     @Query(nativeQuery = true, value = QUERY + " and 1=1")
     List<Book> findSpecificBook(@Param("id") Long id);
 
@@ -38,15 +40,18 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     void deleteById(Long id);
 
     default public long getMaxPage(int recordsPerPage) {
-      if (this.count() == 0 || this.count() <= recordsPerPage)
-          return 1L;
-      return (this.count() - 1) / recordsPerPage + 1;
+        if (this.count() == 0 || this.count() <= recordsPerPage)
+            return 1L;
+        return (this.count() - 1) / recordsPerPage + 1;
     }
 
-    List<Book> findByPrintYearIn(Integer ... years);
+    List<Book> findByPrintYearIn(Integer... years);
 
-    List<Book> findByTitleLikeAndPrintYearIn(String title, Integer ... years);
+    List<Book> findByTitleLikeAndPrintYearIn(String title, Integer... years);
 
     Page<Book> findByTitleLikeOrderByAuthorAsc(String title, Pageable pageable);
+
+    // See query in ru.ama0.book.entity.Book
+    List<BookWithChapters> findBookChapters(@Param("chapter") String chapter);
 }
 
