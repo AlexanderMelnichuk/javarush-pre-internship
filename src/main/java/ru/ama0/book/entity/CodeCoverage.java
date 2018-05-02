@@ -2,38 +2,34 @@ package ru.ama0.book.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "coverage_code_coverage")
 public class CodeCoverage {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
     public static final String UNNAMED_PACKAGE = "unnamed package";
 
-    @JsonIgnore
-    private Integer jobId;
+    @Id
+    @Embedded
+    private CodeCoverageId id;
 
     @JsonIgnore
     private Integer buildId;
-
-    @JsonProperty("id")
-    private Integer nodeId;
 
     @JsonIgnore
     private Integer parentNode;

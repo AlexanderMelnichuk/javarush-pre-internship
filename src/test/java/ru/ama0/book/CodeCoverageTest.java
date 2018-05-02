@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ama0.book.entity.CodeCoverage;
+import ru.ama0.book.entity.CodeCoverageId;
 import ru.ama0.book.repository.CodeCoverageRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,7 +33,8 @@ public class CodeCoverageTest {
 
     @Before
     public void setUp() {
-        coverageOne = codeCoverageRepository.save(CodeCoverage.builder().jobId(1).buildId(2).nodeId(3).parentNode(null)
+        coverageOne = codeCoverageRepository.save(CodeCoverage.builder()
+                .id(new CodeCoverageId(1, 3)).buildId(2).parentNode(null)
                 .elementType(CodeCoverage.ElementType.PACKAGE).absoluteName("test.absolute.name")
                 .signature("test.signature").relativeName("name").totalClasses(5).coveredClasses(4).totalMethods(15)
                 .coveredMethods(12).totalComplexity(55).coveredComplexity(54).totalBranches(1).coveredBranches(1)
@@ -43,15 +44,15 @@ public class CodeCoverageTest {
 
     @Test
     public void testFindByJobIdAndNodeIdAndElementType_finds() throws Exception {
-        assertThat(codeCoverageRepository.findByJobIdAndNodeIdAndElementType(1, 3,
+        assertThat(codeCoverageRepository.findByIdJobIdAndIdNodeIdAndElementType(1, 3,
                 CodeCoverage.ElementType.PACKAGE),
                 is(Collections.singletonList(coverageOne)));
     }
 
     @Test
     public void testFindByJobIdAndNodeIdAndElementTypesIn_finds() throws Exception {
-        assertEquals(1, codeCoverageRepository.findByJobIdAndNodeIdAndElementTypeIn(1, 3,
-                CodeCoverage.ElementType.PACKAGE, CodeCoverage.ElementType.METHOD).size());
+        assertEquals(1, codeCoverageRepository.findByIdJobIdAndIdNodeIdAndElementTypeIn(1,
+                3, CodeCoverage.ElementType.PACKAGE, CodeCoverage.ElementType.METHOD).size());
     }
 
 /*
